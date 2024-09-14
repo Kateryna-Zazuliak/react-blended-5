@@ -2,10 +2,13 @@ import { Header, Heading } from 'components';
 import Home from 'pages/Home';
 import Rates from 'pages/Rates';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { getUserInfo } from 'service/opencagedataApi';
+import { fetchBaseCurrency } from 'reduxState/operations';
 
 export const App = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const options = {
       enableHighAccuracy: true,
@@ -15,11 +18,7 @@ export const App = () => {
 
     async function success(pos) {
       const crd = pos.coords;
-      const result = await getUserInfo({
-        latitude: crd.latitude,
-        longitude: crd.longitude,
-      });
-      console.log(result.results[0].annotations.currency.iso_code);
+      dispatch(fetchBaseCurrency(crd));
     }
 
     function error(err) {
