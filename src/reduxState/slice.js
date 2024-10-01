@@ -44,7 +44,7 @@ const currencySlice = createSlice({
       })
       .addCase(fetchExchangeInfo.rejected, (state, { payload }) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = payload;
         state.exchangeInfo = null;
       })
       .addCase(fetchLatestRates.pending, handlePending)
@@ -65,9 +65,9 @@ const handlePending = state => {
   state.isLoading = true;
   state.error = null;
 };
-const handleRejected = (state, action) => {
+const handleRejected = (state, { payload }) => {
   state.isLoading = false;
-  state.error = action.payload;
+  state.error = payload;
 };
 export const currencyReducer = currencySlice.reducer;
 export const { setBaseCurrency } = currencySlice.actions;
